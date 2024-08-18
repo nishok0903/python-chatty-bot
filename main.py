@@ -1,13 +1,17 @@
-from chatterbot import ChatBot
-from chatterbot.trainers import ChatterBotCorpusTrainer
+import os
+from openai import OpenAI
 
-chatbot = ChatBot('Ron Obvious')
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get("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"),
+)
 
-# Create a new trainer for the chatbot
-trainer = ChatterBotCorpusTrainer(chatbot)
-
-# Train the chatbot based on the english corpus
-trainer.train("chatterbot.corpus.english")
-
-# Get a response to an input statement
-chatbot.get_response("Hello, how are you today?")
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Say this is a test",
+        }
+    ],
+    model="gpt-4o-mini",
+)
